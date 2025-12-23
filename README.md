@@ -1,110 +1,150 @@
-# FHEVM Hardhat Template
+# Futurify
 
-A Hardhat-based template for developing Fully Homomorphic Encryption (FHE) enabled Solidity smart contracts using the
-FHEVM protocol by Zama.
+Futurify is an encrypted prediction market built on Zama FHEVM. Users buy an
+encrypted Coin balance, create predictions with 2-4 options, and place private
+stakes and choices. All critical values stay encrypted on-chain until the
+prediction is closed and the totals are made public.
 
-## Quick Start
+## Why This Exists
 
-For detailed instructions see:
-[FHEVM Hardhat Quick Start Tutorial](https://docs.zama.ai/protocol/solidity-guides/getting-started/quick-start-tutorial)
+Traditional prediction markets expose who bet, how much, and early odds. That
+creates information leakage, front-running, coordination pressure, and biased
+signals. Futurify uses fully homomorphic encryption (FHE) so the market can
+operate with privacy by default, while still settling on-chain.
 
-### Prerequisites
+## Core Features
 
-- **Node.js**: Version 20 or higher
-- **npm or yarn/pnpm**: Package manager
+- Buy Coin with ETH at a fixed rate: 1 ETH = 1,000,000 Coin (encrypted balance)
+- Create a prediction with a name and 2-4 options
+- Choose any prediction and place an encrypted stake and encrypted choice
+- Maintain encrypted per-option totals on-chain
+- Close a prediction to reveal totals publicly and make results decryptable
 
-### Installation
+## Advantages
 
-1. **Install dependencies**
+- Privacy-preserving participation: choices and stakes stay hidden until close
+- Reduced market manipulation: no early leakage of odds or whale signals
+- Verifiable settlement: totals can be revealed and audited on-chain
+- Simple UX: a single Coin balance supports all predictions
+- Non-custodial flow: assets and results are enforced by the contract
 
-   ```bash
-   npm install
-   ```
+## Problems Solved
 
-2. **Set up environment variables**
+- Public betting histories that reveal strategies and identities
+- Early odds manipulation and front-running
+- Unfair coordination pressure from visible vote totals
+- Lack of credible privacy in on-chain prediction markets
 
-   ```bash
-   npx hardhat vars set MNEMONIC
+## Technology Stack
 
-   # Set your Infura API key for network access
-   npx hardhat vars set INFURA_API_KEY
+- Smart contracts: Solidity, Hardhat
+- Privacy layer: Zama FHEVM
+- Frontend: React + Vite
+- Wallet and chain access: RainbowKit, viem (read), ethers (write)
+- Package manager: npm
 
-   # Optional: Set Etherscan API key for contract verification
-   npx hardhat vars set ETHERSCAN_API_KEY
-   ```
+## How It Works
 
-3. **Compile and test**
+1. A user buys Coin with ETH. Their Coin balance is stored encrypted.
+2. A creator defines a prediction with 2-4 options.
+3. Participants choose an option and stake encrypted Coin.
+4. The contract tracks encrypted totals for each option.
+5. The creator or anyone ends the prediction, revealing totals publicly.
 
-   ```bash
-   npm run compile
-   npm run test
-   ```
-
-4. **Deploy to local network**
-
-   ```bash
-   # Start a local FHEVM-ready node
-   npx hardhat node
-   # Deploy to local network
-   npx hardhat deploy --network localhost
-   ```
-
-5. **Deploy to Sepolia Testnet**
-
-   ```bash
-   # Deploy to Sepolia
-   npx hardhat deploy --network sepolia
-   # Verify contract on Etherscan
-   npx hardhat verify --network sepolia <CONTRACT_ADDRESS>
-   ```
-
-6. **Test on Sepolia Testnet**
-
-   ```bash
-   # Once deployed, you can run a simple test on Sepolia.
-   npx hardhat test --network sepolia
-   ```
-
-## 📁 Project Structure
+## Repository Layout
 
 ```
-fhevm-hardhat-template/
-├── contracts/           # Smart contract source files
-│   └── FHECounter.sol   # Example FHE counter contract
-├── deploy/              # Deployment scripts
-├── tasks/               # Hardhat custom tasks
-├── test/                # Test files
-├── hardhat.config.ts    # Hardhat configuration
-└── package.json         # Dependencies and scripts
+contracts/   Smart contracts
+deploy/      Deployment scripts
+tasks/       Hardhat tasks
+test/        Contract tests
+home/        Frontend (React + Vite)
+docs/        Zama references and guides
 ```
 
-## 📜 Available Scripts
+## Prerequisites
 
-| Script             | Description              |
-| ------------------ | ------------------------ |
-| `npm run compile`  | Compile all contracts    |
-| `npm run test`     | Run all tests            |
-| `npm run coverage` | Generate coverage report |
-| `npm run lint`     | Run linting checks       |
-| `npm run clean`    | Clean build artifacts    |
+- Node.js 20+
+- npm
 
-## 📚 Documentation
+## Installation
 
-- [FHEVM Documentation](https://docs.zama.ai/fhevm)
-- [FHEVM Hardhat Setup Guide](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup)
-- [FHEVM Testing Guide](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat/write_test)
-- [FHEVM Hardhat Plugin](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat)
+```bash
+npm install
+cd home
+npm install
+```
 
-## 📄 License
+## Configuration
 
-This project is licensed under the BSD-3-Clause-Clear License. See the [LICENSE](LICENSE) file for details.
+Deployment uses a local `.env` file in the repo root. Frontend builds do not
+use environment variables.
 
-## 🆘 Support
+```
+INFURA_API_KEY=your_infura_key
+PRIVATE_KEY=your_private_key
+ETHERSCAN_API_KEY=optional_key
+```
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/zama-ai/fhevm/issues)
-- **Documentation**: [FHEVM Docs](https://docs.zama.ai)
-- **Community**: [Zama Discord](https://discord.gg/zama)
+Notes:
+- Deployment uses a private key, not a mnemonic.
+- Keep keys private and never commit `.env`.
 
----
+## Compile and Test
 
-**Built with ❤️ by the Zama team**
+```bash
+npm run compile
+npm run test
+```
+
+## Local Development
+
+```bash
+npx hardhat node
+npx hardhat deploy --network localhost
+```
+
+```bash
+cd home
+npm run dev
+```
+
+## Deploy to Sepolia
+
+```bash
+npx hardhat deploy --network sepolia
+npx hardhat verify --network sepolia <CONTRACT_ADDRESS>
+```
+
+## Frontend Notes
+
+- Reads use viem, writes use ethers.
+- No mock data: all data comes from the deployed contracts.
+- Frontend avoids localhost chains and local storage by design.
+
+## Usage Flow
+
+1. Connect a wallet.
+2. Buy Coin with ETH.
+3. Create a prediction with 2-4 options.
+4. Pick an option and stake Coin.
+5. Close the prediction to publish totals.
+
+## Limitations and Risks
+
+- FHE is compute-heavy; gas costs are higher than non-private flows.
+- This project is a prototype and has not been audited.
+- Results are only as fair as the prediction creator and any off-chain oracle.
+
+## Future Roadmap
+
+- Multiple resolution paths (creator, oracle, consensus)
+- Dispute windows and challenge flows
+- Better price discovery and dynamic staking models
+- Multi-market dashboards and analytics
+- Gas and latency optimizations for FHE operations
+- Expanded UI onboarding and education for privacy guarantees
+
+## License
+
+BSD-3-Clause-Clear. See `LICENSE`.
