@@ -1,0 +1,167 @@
+.prediction-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-shadow: 0 16px 34px rgba(31, 22, 10, 0.08);
+  animation: card-rise 0.5s ease-out both;
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prediction-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.prediction-card__label {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.prediction-card__title {
+  margin: 0.35rem 0 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+}
+
+.prediction-card__status {
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.prediction-card__status.is-open {
+  background: rgba(27, 147, 106, 0.15);
+  color: #0f5c40;
+}
+
+.prediction-card__status.is-closed {
+  background: rgba(255, 122, 0, 0.15);
+  color: #8a4300;
+}
+
+.prediction-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.prediction-card__options {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.prediction-card__option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.prediction-card__option-total {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.prediction-card__bet {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+}
+
+.prediction-card__row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.prediction-card__row label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.prediction-card__row input,
+.prediction-card__row select {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.7rem;
+  font-size: 0.95rem;
+}
+
+.prediction-card__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.prediction-card__error {
+  color: #b53b00;
+  font-weight: 600;
+  margin: 0;
+}
+
+.prediction-card__closed {
+  background: var(--surface-strong);
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+}
+
+.prediction-card__note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.prediction-card__personal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+}
+
+.prediction-card__value {
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+}
+
+.prediction-card__value.muted {
+  color: var(--muted);
+}
